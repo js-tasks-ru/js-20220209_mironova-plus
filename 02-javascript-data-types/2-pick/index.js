@@ -4,17 +4,15 @@
  * @param {...string} fields - the properties paths to pick
  * @returns {object} - returns the new object
  */
+
 export const pick = (obj, ...fields) => {
-    let array = [];
-    
-    for (let iVal of Object.entries(fields)){
+    const objOut = {};
 
-        for(let jVal of Object.entries(obj)){
-
-            if(jVal[0] === iVal[1]){
-                array.push(jVal);
-            }
-        }
+    for (let [key, val] of Object.entries(obj)){
+      if(fields.includes(key)) {
+        objOut[key] = val;
+      }
     }
-    return Object.fromEntries(array);
-};
+    return objOut;
+}
+

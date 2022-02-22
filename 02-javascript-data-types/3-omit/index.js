@@ -5,27 +5,15 @@
  * @returns {object} - returns the new object
  */
 export const omit = (obj, ...fields) => {
+  const objOut = {};
 
-  let tempArray = [];
-  const originArray = Object.entries(obj);
-  let array = originArray.slice();
-
-  function checkExist(val, array) {
-    let tempArray = [];
-    let index = 0;
-
-    for(let i = 0; i < array.length; i++){
-      if(array[i][0] !== val[1]) {
-        tempArray[index] = array[i];
-        index++;
+      for (let [key, val] of Object.entries(obj)){
+        if(!fields.includes(key)) {
+          objOut[key] = val;
+        }
       }
-    }
-    return (tempArray.length !== array.length) ? tempArray : array; 
-  }
 
-  for (let val of Object.entries(fields)) {
-    array = checkExist(val, array);
-  }
-  
-  return (array.length !== originArray.length) ? Object.fromEntries(array) : obj;
+      return (Object.keys(objOut).length === Object.keys(obj).length) ? obj : objOut;
+
 };
+
