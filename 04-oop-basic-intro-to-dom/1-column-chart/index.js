@@ -67,10 +67,11 @@ export default class ColumnChart {
 
       getColumnBody (data) {
         // сделать массив и добавить все туда
-        let mapData = this.getColumnProps(data);
-        let htmlDataArray = [];
+        const mapData = this.getColumnProps(data);
 
-        mapData.forEach(item => htmlDataArray.push(`<div style="--value: ${item.value}" data-tooltip="${item.percent}"></div>`));
+        const htmlDataArray = mapData.map(item => {
+          return `<div style="--value: ${item.value}" data-tooltip="${item.percent}"></div>`;
+        });
 
         return htmlDataArray.join('\n');
       }
@@ -82,10 +83,6 @@ export default class ColumnChart {
       update (data) {
         this.data = data;
         this.subElements.body.innerHTML = this.getColumnBody(data);
-      }
-
-      initEventListeners () {
-        // NOTE: в данном методе добавляем обработчики событий, если они есть
       }
 
       remove () {
@@ -101,9 +98,11 @@ export default class ColumnChart {
         // NOTE: удаляем обработчики событий, если они есть
       }
 
+      initEventListeners () {}
+
       getColumnProps(data) {
         const maxValue = Math.max(...data);
-        const scale = 50 / maxValue;
+        const scale = this.chartHeight / maxValue;
 
         return data.map(item => {
           return {

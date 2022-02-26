@@ -1,5 +1,6 @@
 export default class NotificationMessage {
   timerId = 0;
+  static onPage = false;
   constructor (msg = '',{duration = 0, type = 'success'} = {}) {
 
     this.msg = msg;
@@ -32,28 +33,31 @@ export default class NotificationMessage {
 
   show (elem = document.body) {
 
-    let el = document.querySelector('.notification');
+    if(NotificationMessage.onPage) {
 
-    if(el) {
-      el.remove();
+      document.querySelector('.notification').replaceWith(this.element);
       clearTimeout(this.timerId);
+
+    } else {
+       elem.append(this.element);
     }
 
-    elem.append(this.element);
+    NotificationMessage.onPage = true;
 
     this.timerId = setTimeout(() => {this.remove(); this.destroy();}, this.duration);
   }
 
   remove () {
-    document.querySelector('.notification').remove();
+    if(this.element) this.element.remove();
+    NotificationMessage.onPage = false;
   }
 
   destroy () {
-    this.element.remove();
-    this.timerId = 0;
-    this.msg = '';
-    this.type = 'success';
-    this.duration = 0;
+
+    this.remove();
+    this.element = null;
+    NotificationMessage.onPage = false;
+
   }
 }
 
