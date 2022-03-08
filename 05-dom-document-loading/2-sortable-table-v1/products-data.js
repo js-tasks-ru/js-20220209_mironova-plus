@@ -43,6 +43,7 @@ export default [
     "discount": 0,
     "sales": 14
   },
+
   {
     "id": "tv-tyuner-d-color--dc1301hd",
     "title": "ТВ тюнер D-COLOR  DC1301HD",
